@@ -1,6 +1,5 @@
 package com.LetsChat.client.view;
 
-import java.awt.BorderLayout;
 import java.awt.*;
 import javax.swing.*;
 
@@ -31,22 +30,27 @@ public class ClientLogin extends JFrame {
 		//south part
 		jp1 = new JPanel(); //center FlowLayout() by default;
 		jp1_jb1 = new JButton("Login");
+		jp1_jb1.setIcon(new ImageIcon(ClientLogin.class.getResource("/images/login.png")));
 		jp1_jb2 = new JButton("Cancel");
+		jp1_jb2.setIcon(new ImageIcon(ClientLogin.class.getResource("/images/delete.png")));
 		jp1_jb3 = new JButton("Guide");
+		jp1_jb3.setIcon(new ImageIcon(ClientLogin.class.getResource("/images/me.png")));
 		jp1.add(jp1_jb1);
 		jp1.add(jp1_jb2);
 		jp1.add(jp1_jb3);
+		
 		//center part
 		jp2 = new JPanel(new GridLayout(3,3));
 		jp2_jlb1 = new JLabel("Acount No: ", JLabel.CENTER);
 		jp2_jlb2 = new JLabel("Password: ", JLabel.CENTER);	
-		jp2_jlb3 = new JLabel("Forget password?", JLabel.CENTER);
-		jp2_jlb4 = new JLabel("Secure your Password", JLabel.CENTER);
-		jp2_jb1 = new JButton("Clear record");
+		jp2_jlb3 = new JLabel("Forget pwd?", JLabel.CENTER);
+		jp2_jlb3.setForeground(Color.blue);
+		jp2_jlb4 = new JLabel("Secure your pwd", JLabel.CENTER);
+		jp2_jb1 = new JButton("Clear");
 		jp2_jtf = new JTextField();
 		jp2_jpf = new JPasswordField();
-		jp2_jcb1= new JCheckBox("Invisibility cloak");
-		jp2_jcb2 = new JCheckBox("Remember my pwd");
+		jp2_jcb1= new JCheckBox("Invisi cloak");
+		jp2_jcb2 = new JCheckBox("Remember me");
 		
 		jp2.add(jp2_jlb1);
 		jp2.add(jp2_jtf);
@@ -65,12 +69,12 @@ public class ClientLogin extends JFrame {
 
 
 		
-		this.add(jlb1, "North");
-		this.add(jp1, "South");
-		this.add(jtp, "Center");
+		getContentPane().add(jlb1, "North");
+		getContentPane().add(jp1, "South");
+		getContentPane().add(jtp, "Center");
 		this.setTitle("Client Login");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(400, 300);
+		this.setSize(360, 250);
 	}
 
 }
