@@ -1,10 +1,15 @@
 package com.LetsChat.client.view;
 
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
 
+import com.LetsChat.client.model.ClientUser;
+import com.LetsChat.common.User;
 
-public class ClientLogin extends JFrame {
+
+public class ClientLogin extends JFrame implements ActionListener{
 
 	private JLabel jlb1 ;
 	JPanel jp1;
@@ -25,11 +30,12 @@ public class ClientLogin extends JFrame {
 	 */
 	public ClientLogin() {		
 		//north part
-		JLabel jlb1 = new JLabel(new ImageIcon(ClientLogin.class.getResource("/images/titleLable.png")));
+		jlb1 = new JLabel(new ImageIcon(ClientLogin.class.getResource("/images/titleLable.png")));
 		
 		//south part
 		jp1 = new JPanel(); //center FlowLayout() by default;
 		jp1_jb1 = new JButton("Login");
+		jp1_jb1.addActionListener(this);
 		jp1_jb1.setIcon(new ImageIcon(ClientLogin.class.getResource("/images/login.png")));
 		jp1_jb2 = new JButton("Cancel");
 		jp1_jb2.setIcon(new ImageIcon(ClientLogin.class.getResource("/images/delete.png")));
@@ -68,13 +74,34 @@ public class ClientLogin extends JFrame {
 		jtp.add("Phone Account", jp3);
 
 
+		this.add(jlb1, "North");
+		this.add(jp1, "South");
+		this.add(jtp, "Center");
 		
-		getContentPane().add(jlb1, "North");
-		getContentPane().add(jp1, "South");
-		getContentPane().add(jtp, "Center");
 		this.setTitle("Client Login");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(360, 250);
+		this.setVisible(true);
 	}
-
+	/*
+	 * event handler of press the "Login" button
+	 */
+	public void actionPerformed(ActionEvent evt) {
+		// if the client clicks "Login"
+		if(evt.getSource()==jp1_jb1){
+			User u= new User();
+			u.setUserId(jp2_jtf.getText().trim());
+			u.setPwd(new String(jp2_jpf.getPassword()));
+			
+			ClientUser clientUser = new ClientUser();
+			if(clientUser.verifyUser(u)){
+				new ChatList();
+				//close the Login window
+				this.dispose();
+			}else{
+				JOptionPane.showMessageDialog(this, "Invalid Account or Password");
+			}
+			
+		}		
+	}
 }

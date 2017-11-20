@@ -140,13 +140,13 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 		
 	}
 
-
-	@Override
+	//choosing the friend you want to chat with
 	public void mouseClicked(MouseEvent me) {
 		// event handler of double-clicking
 		if(me.getClickCount()==2){
 			String friendNo = ((JLabel)me.getSource()).getText();
-			System.out.println("You want to chat with "+friendNo+".");
+			//System.out.println("You want to chat with "+friendNo+".");
+			new LetsChat(friendNo);
 		}
 	}
 
