@@ -10,7 +10,7 @@ import com.LetsChat.client.tools.*;
 import com.LetsChat.common.*;
 
 public class ClientConServer {
-	public static Socket s;
+	public Socket s;
 	//send first-time info to server
 	public boolean sendLoginInfoToServer(Object o){
 		boolean b= false;
@@ -27,8 +27,9 @@ public class ClientConServer {
 				//use the socket to new an unique Thread(ccst) for this client
 				ClientConSerThread ccst = new ClientConSerThread(s);
 				//start this thread ccst
-				String userId = ((User) o).getUserId();
+				ccst.start();
 				//put the ccst to hashmap for the thread management
+				String userId = ((User) o).getUserId();
 				ManageClientConSerThread.addClientConSerThread(userId, ccst);
 				b= true;
 			}

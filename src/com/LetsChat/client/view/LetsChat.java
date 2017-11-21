@@ -64,6 +64,7 @@ public class LetsChat extends JFrame implements ActionListener{
 		// If the client press the "Send" button 
 		if(evt.getSource()==jb){
 			Message m = new Message();
+			m.setMsgType(MessageType.msg_common);
 			m.setSender(this.ownerId);
 			m.setReceiver(this.friendId);
 			m.setContent(jtf.getText().trim());
@@ -78,10 +79,18 @@ public class LetsChat extends JFrame implements ActionListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			//show the msg on my jta and clear the jtf
+			this.jta.append(this.ownerId+" to "+this.friendId+" : "+jtf.getText().trim()+"\n");
+			this.jtf.setText("");
 		}
 	}
-
+	
+	public void showMessage(Message m){
+		String info = m.getSender()+" to "+m.getReceiver()+" : "+m.getContent()+"\n";
+		this.jta.append(info);
+	}
+	
+	
 //	@Override
 //	public void run() {
 //		// TODO Auto-generated method stub

@@ -2,12 +2,11 @@ package com.LetsChat.client.view;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import com.LetsChat.client.model.ClientUser;
-import com.LetsChat.common.User;
-
+import com.LetsChat.common.*;
+import java.io.*;
+import com.LetsChat.client.tools.*;
 
 public class ClientLogin extends JFrame implements ActionListener{
 
@@ -88,14 +87,34 @@ public class ClientLogin extends JFrame implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent evt) {
 		// if the client clicks "Login"
-		if(evt.getSource()==jp1_jb1){
+		if(evt.getSource()==jp1_jb1){  
+			
 			User u= new User();
 			u.setUserId(jp2_jtf.getText().trim());
 			u.setPwd(new String(jp2_jpf.getPassword()));
 			
 			ClientUser clientUser = new ClientUser();
+			//verify the id&pwd in server
 			if(clientUser.verifyUser(u)){
-				new ChatList(u.getUserId());
+				//open the ChatList window
+				ChatList chatList= new ChatList(u.getUserId());  
+				ManageChatList.addChatList(u.getUserId(), chatList);
+				//update the online friend list.
+				
+				try {
+					//send a request for online friend list
+					ClientConSerThread ccst = ManageClientConSerThread.getClientConSerThread(u.getUserId());
+					ObjectOutputStream oos = new ObjectOutputStream(ccst.getS().getOutputStream());
+					Message m = new Message();
+					m.setSender(u.getUserId());//so server can know to whom it should reply
+					m.setMsgType(MessageType.msg_get_onLineFriend);
+					oos.writeObject(m);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+				
 				//close the Login window
 				this.dispose();
 			}else{

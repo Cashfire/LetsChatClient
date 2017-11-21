@@ -2,7 +2,8 @@ package com.LetsChat.client.view;
 
 import java.awt.*;
 import java.awt.event.*;
-
+import com.LetsChat.client.tools.*;
+import com.LetsChat.common.Message;
 
 import javax.swing.*;
 
@@ -12,11 +13,18 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 	private JScrollPane jsp1, jsp2, jsp3;
 	CardLayout cl = new CardLayout();
 	private String owner;
+	private JLabel[] jlFriend;
 	
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 //		ChatList chatList= new ChatList();
-//	}
+	}
 
+	public void updateFriend(Message m){
+		String[] onlineFriend = m.getContent().split(" ");
+		for(int i = 0; i< onlineFriend.length; i++){
+		jlFriend[Integer.parseInt(onlineFriend[i])-1].setEnabled(true);
+		}
+	}
 
 	public ChatList(String ownerId) {
 		this.owner = ownerId;
@@ -55,12 +63,16 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 		jsp3 = new JScrollPane(jpBlackList);
 		
 		// suppose I have 50 friends in the friend list
-		JLabel jlFriend[]= new JLabel[50];
+		jlFriend= new JLabel[50];
 		for(int i = 0; i< jlFriend.length; i++){
 			jlFriend[i] = new JLabel(String.valueOf(i+1));
 			jlFriend[i].setIcon(new ImageIcon(ChatList.class.getResource("/images/mm.gif")));
 			jlFriend[i].addMouseListener(this);
 			jpFriendList.add(jlFriend[i]);
+			jlFriend[i].setEnabled(false);
+			if(jlFriend[i].getText().equals(this.owner)){
+				jlFriend[i].setEnabled(true);
+			}
 		}
 
 		/*
@@ -150,8 +162,10 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 		if(me.getClickCount()==2){
 			String friendNo = ((JLabel)me.getSource()).getText();
 			//System.out.println("You want to chat with "+friendNo+".");
+			//open a LetsChat window
 			LetsChat letsChat= new LetsChat(this.owner, friendNo);
-			
+			//add the LetsChat to HashMap for easy management
+			ManageLetsChat.addLetsChat(this.owner+"To"+friendNo, letsChat);
 		}
 	}
 
