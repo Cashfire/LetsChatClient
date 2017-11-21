@@ -11,13 +11,15 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 	private JButton jb11, jb12, jb13, jb21, jb22, jb23, jb31, jb32, jb33;
 	private JScrollPane jsp1, jsp2, jsp3;
 	CardLayout cl = new CardLayout();
+	private String owner;
 	
-	public static void main(String[] args) {
-		ChatList chatList= new ChatList();
-	}
+//	public static void main(String[] args) {
+//		ChatList chatList= new ChatList();
+//	}
 
 
-	public ChatList() {
+	public ChatList(String ownerId) {
+		this.owner = ownerId;
 		jb11 = new JButton("My Friends");
 		jb12 = new JButton("Strangers");
 		jb12.addActionListener(this);
@@ -110,13 +112,15 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 		//Finally, fill the card3 
 		card3.add(jp3, "North");
 		card3.add(jsp3, "Center");
-				
+		
+		//set the account name on title
+		this.setTitle(ownerId);
 		this.setLayout(cl);
 		this.add(card1, "1");
 		this.add(card2, "2");
 		this.add(card3, "3");
 		//this.add(card3, "3");
-		this.setTitle("Chat List"); 
+		this.setTitle(owner+"'s Chat List"); 
 		this.setSize(140,500);
 		this.setVisible(true);
 		
@@ -146,7 +150,8 @@ public class ChatList extends JFrame implements ActionListener, MouseListener{
 		if(me.getClickCount()==2){
 			String friendNo = ((JLabel)me.getSource()).getText();
 			//System.out.println("You want to chat with "+friendNo+".");
-			new LetsChat(friendNo);
+			LetsChat letsChat= new LetsChat(this.owner, friendNo);
+			
 		}
 	}
 

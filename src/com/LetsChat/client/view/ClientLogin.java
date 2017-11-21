@@ -95,7 +95,7 @@ public class ClientLogin extends JFrame implements ActionListener{
 			
 			ClientUser clientUser = new ClientUser();
 			if(clientUser.verifyUser(u)){
-				new ChatList();
+				new ChatList(u.getUserId());
 				//close the Login window
 				this.dispose();
 			}else{
